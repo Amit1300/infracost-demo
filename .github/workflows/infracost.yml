@@ -1,7 +1,10 @@
+name: Infracost Workflow
+
 on:
   push:
     branches:
       - main
+
 jobs:
   infracost:
     runs-on: ubuntu-latest
@@ -51,7 +54,8 @@ jobs:
       - name: Post Infracost comment
         run: |
           infracost comment github --path /tmp/infracost.json \
-                                   --repo $GITHUB_REPOSITORY \
-                                   --github-token ${{github.token}} \
-                                   --pull-request ${{github.event.pull_request.number}} \
+                                   --repo ${{ github.repository }} \
+                                   --github-token ${{ secrets.GITHUB_TOKEN }} \
+                                   --commit ${{ github.sha }} \
                                    --behavior update
+
