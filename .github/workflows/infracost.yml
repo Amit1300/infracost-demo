@@ -1,9 +1,9 @@
-name: Infracost Workflow
+name: Terraform Infracost Comment
 
 on:
   push:
     branches:
-      - main
+      - main  # Adjust to your main branch name
 
 jobs:
   infracost:
@@ -14,31 +14,30 @@ jobs:
       INFRACOST_SKIP_UPDATE_CHECK: true
       INFRACOST_LOG_LEVEL: info
 
-    name: Run Infracost
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install terraform
+      - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
 
-      - name: Terraform init
+      - name: Terraform Init
         run: terraform init
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         working-directory: ${{ env.working-directory }}
 
-      - name: Terraform plan
+      - name: Terraform Plan
         run: terraform plan -out tfplan.binary
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}        
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         working-directory: ${{ env.working-directory }}
 
-      - name: Terraform show
+      - name: Terraform Show
         run: terraform show -json tfplan.binary > plan.json
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
