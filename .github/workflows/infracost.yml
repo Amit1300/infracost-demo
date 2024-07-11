@@ -1,4 +1,4 @@
-name: Terraform Infracost Comment
+name: Infracost Comment
 
 on:
   push:
@@ -57,8 +57,8 @@ jobs:
         run: |
           infracost comment github --path /tmp/infracost.json \
                                    --repo "${{ github.repository }}" \
-                                   --github-token "${{ secrets.GITHUB_TOKEN }}" \
                                    --commit "${{ github.sha }}" \
+                                   --github-token "${{ secrets.GITHUB_TOKEN }}" \
                                    --behavior update
 
 
