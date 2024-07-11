@@ -56,9 +56,10 @@ jobs:
       - name: Post Infracost comment
         run: |
           infracost comment github --path /tmp/infracost.json \
-                                   --repo ${{ github.repository }} \
-                                   --github-token ${{ secrets.GITHUB_TOKEN }} \
-                                   --commit ${{ github.sha }} \
+                                   --repo "${{ github.repository }}" \
+                                   --github-token "${{ secrets.GITHUB_TOKEN }}" \
+                                   --commit "${{ github.sha }}" \
                                    --behavior update
+
 
 
